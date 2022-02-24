@@ -1,0 +1,35 @@
+1.配列を取得
+それぞれにarray_slice array_chunkなどで形を変換していく
+その際にいちいち変数を作って変形した値を代入していくのか？
+
+変数が多くなってしまう、
+この場合どうやって変数を定義して変形していってたか？
+
+例)
+  $input = $_SERVER['argv'];
+  $inputs = array_slice($input,1);
+  $inputsArray = array_chunk($inputs,2);
+
+$argument = array_slice($_SERVER['argv'],1);
+  return array_chunk($argument,SPLIT_LENGTH);
+
+2.名前の付け方(変数、関数、定数)
+いい名前の付け方を付け方を付け方をもう一度復習する
+
+
+
+9 実習(パン屋さん)
+
+10個の商品にそれぞれの値段がある
+それらをどうやって計算するのか？
+
+if文を10個書くのか？case文？
+
+
+スーパーマーケット
+
+•ゴールからの逆算をしないといけない
+どんなデータ構造にするのか
+どんな引数を受け取ってどんな値を表示するのか？
+
+
