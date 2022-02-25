@@ -50,7 +50,7 @@ function inputs(): array
   return array_chunk($documents,SPLIT_NUMBER);
 }
 
-function separateOfChanelTime(array $inputs)
+function separateOfChanelTime(array $inputs): array
 {
   $chanelTime = [];
   foreach($inputs as $input){
@@ -61,9 +61,33 @@ function separateOfChanelTime(array $inputs)
       $mins = array_merge($mins,$chanelTime[$chanel]);
     }
     $chanelTime[$chanel] = $mins;
-    var_dump($chanelTime);
   }
+    return $chanelTime;
+}
+
+function chanelWatchTimeSum(array $separateOfChanelTime): float
+{
+  $timeSum = [];
+  foreach($separateOfChanelTime as $chanel){
+    $timeSum = array_merge($timeSum,$chanel);
+  }
+  $totalSum = array_sum($timeSum);
+  return round($totalSum / 60,1);
+}
+
+function chanelTimeSum(array $separateOfChanelTime,float $chanelWatchTimeSum)
+{
+  echo $chanelWatchTimeSum . PHP_EOL;
+  $times = [];
+  foreach($separateOfChanelTime as $chanel => $time){
+    $times = array_sum($time);
+    echo $chanel. ' ' .$times. ' ' . count($time) . PHP_EOL;
+  }
+  return $times;
 }
 
 $inputs = inputs();
 $separateOfChanelTime = separateOfChanelTime($inputs);
+// var_dump($separateOfChanelTime);
+$chanelWatchTimeSum = chanelWatchTimeSum($separateOfChanelTime);
+$chanelTimeSum = chanelTimeSum($separateOfChanelTime,$chanelWatchTimeSum);
