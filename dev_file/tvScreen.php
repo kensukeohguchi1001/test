@@ -88,6 +88,5 @@ function chanelTimeSum(array $separateOfChanelTime,float $chanelWatchTimeSum)
 
 $inputs = inputs();
 $separateOfChanelTime = separateOfChanelTime($inputs);
-// var_dump($separateOfChanelTime);
 $chanelWatchTimeSum = chanelWatchTimeSum($separateOfChanelTime);
 $chanelTimeSum = chanelTimeSum($separateOfChanelTime,$chanelWatchTimeSum);
