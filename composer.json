@@ -5,13 +5,16 @@
             "Root\\Html\\": "src/"
         }
     },
-    "require": {},
     "require-dev": {
         "squizlabs/php_codesniffer": "3.*",
-        "phpmd/phpmd": "@stable"
+        "phpmd/phpmd": "@stable",
+        "phpstan/phpstan": "^1.4",
+        "phpunit/phpunit": "^9.5"
     },
     "scripts": {
-        "phpcs":"./vendor/bin/phpcs --standard=PSR12 -s --colors sample.php "
-        "phpmd": "./vendor/bin/phpmd . text phpmd.xml --suffixes php --exclude vendor"
+        "phpcs":"./vendor/bin/phpcs --standard=phpcs.xml",
+        "phpmd": "./vendor/bin/phpmd dev_file/tvScreen.php text cleancode,codesize,controversial,design,naming,unusedcode --suffixes php --exclude vendor",
+        "phpstan": "vendor/bin/phpstan analyse dev_file/tvScreen.php phpstan.neon",
+        "phpunit": "./vendor/bin/phpunit"
     }
 }

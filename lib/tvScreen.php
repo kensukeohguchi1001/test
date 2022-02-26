@@ -45,9 +45,9 @@ const SPLIT_NUMBER = 2;
 // 合計時間を算出するsumScreenTime関数を作成する
 
 
-function inputs(): array
+function inputs(array $argv): array
 {
-  $documents = array_slice($_SERVER['argv'], 1);
+  $documents = array_slice($argv, 1);
   $document = array_chunk($documents, SPLIT_NUMBER);
   return $document;
 }
@@ -87,7 +87,7 @@ function chanelTimeSum(array $separateOfChanelTime, float $chanelWatchTimeSum): 
   }
 }
 
-$inputs = inputs();
+$inputs = inputs($_SERVER['argv']);
 $separateOfChanelTime = separateOfChanelTime($inputs);
 $chanelWatchTimeSum = chanelWatchTimeSum($separateOfChanelTime);
 chanelTimeSum($separateOfChanelTime, $chanelWatchTimeSum);
