@@ -45,52 +45,49 @@ const SPLIT_NUMBER = 2;
 // 合計時間を算出するsumScreenTime関数を作成する
 
 
-function inputs(): array
+function inputs(array $argv): array
 {
-    $documents = array_slice($_SERVER['argv'], 1);
-    $document = array_chunk($documents, SPLIT_NUMBER);
-    return $document;
+  $documents = array_slice($argv, 1);
+  $document = array_chunk($documents, SPLIT_NUMBER);
+  return $document;
 }
 
 function separateOfChanelTime(array $inputs): array
 {
-    $chanelTime = [];
-    foreach ($inputs as $input) {
-        $chanel = $input[0];
-        $min = $input[1];
-        $mins = (array) $min;
-        if (array_key_exists($chanel, $chanelTime)) {
-            $mins = array_merge($mins, $chanelTime[$chanel]);
-        }
-        $chanelTime[$chanel] = $mins;
+  $chanelTime = [];
+  foreach ($inputs as $input) {
+    $chanel = $input[0];
+    $min = $input[1];
+    $mins = (array) $min;
+    if (array_key_exists($chanel, $chanelTime)) {
+      $mins = array_merge($mins, $chanelTime[$chanel]);
     }
-        return $chanelTime;
+    $chanelTime[$chanel] = $mins;
+  }
+  return $chanelTime;
 }
 
 function chanelWatchTimeSum(array $separateOfChanelTime): float
 {
-      $timeSum = [];
-    foreach ($separateOfChanelTime as $chanel) {
-        $timeSum = array_merge($timeSum, $chanel);
-    }
-      $totalSum = array_sum($timeSum);
-      return round($totalSum / 60, 1);
+  $timeSum = [];
+  foreach ($separateOfChanelTime as $chanel) {
+    $timeSum = array_merge($timeSum, $chanel);
+  }
+  $totalSum = array_sum($timeSum);
+  return round($totalSum / 60, 1);
 }
 
 function chanelTimeSum(array $separateOfChanelTime, float $chanelWatchTimeSum): void
 {
-      echo $chanelWatchTimeSum . PHP_EOL;
-      $times = [];
-    foreach ($separateOfChanelTime as $chanel => $time) {
-        $times = array_sum($time);
-        echo $chanel . ' ' . $times . ' ' . count($time) . PHP_EOL;
-    }
+  echo $chanelWatchTimeSum . PHP_EOL;
+  $times = [];
+  foreach ($separateOfChanelTime as $chanel => $time) {
+    $times = array_sum($time);
+    echo $chanel . ' ' . $times . ' ' . count($time) . PHP_EOL;
+  }
 }
 
-$inputs = inputs();
+$inputs = inputs($_SERVER['argv']);
 $separateOfChanelTime = separateOfChanelTime($inputs);
 $chanelWatchTimeSum = chanelWatchTimeSum($separateOfChanelTime);
 chanelTimeSum($separateOfChanelTime, $chanelWatchTimeSum);
-
-$test = chanelTimeSum($separateOfChanelTime, $chanelWatchTimeSum);
-print_r($test);
