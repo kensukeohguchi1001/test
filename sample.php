@@ -1,8 +1,8 @@
 <?php
+// 無名関数を書いてみよう
 
-function sayHello(string $argsString): void
-{
-  echo "hello" . $argsString . PHP_EOL;
-}
+$times = 3;
 
-sayHello('world');
+$numbers = [1,2,3];
+$products = array_map(fn ($num) => $num * $times,$numbers);
+var_dump($products);

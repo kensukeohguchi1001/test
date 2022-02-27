@@ -9,16 +9,21 @@ function judge(string $predict, string $answer)
   foreach ($arrayPredict as $index => $arrayPredict) {
         if (isBlow($arrayPredict, $arrayAnswer)) {
           $blowCount++;
+
         }
         if (isHit($arrayPredict, $arrayAnswer, $index)) {
           $hitCount++;
         }
-  }
+      }
+      if ($hitCount === 4) {
+        $blowCount = 0;
+      }
     return [$hitCount, $blowCount];
 }
 
 function isBlow(string $arrayPredict, array $arrayAnswer): bool
 {
+    var_dump($arrayAnswer);
     return in_array($arrayPredict,$arrayAnswer);
 }
 
@@ -27,7 +32,8 @@ function isHit(string $arrayPredict, array $arrayAnswer,  int $index): bool
     return $arrayAnswer[$index]   === $arrayPredict;
 }
 
-$test = judge(5678, 1128);
+judge(5678, 5678); //=> [4, 0]
+$test = judge(5678, 7612); //=> [1, 1]
 var_dump($test);
-// predictを取得し、一つ一つの数字を配列に格納
-// 格納した配列と、answerで一致する値の数をカウントしてhitの数を算出する
+judge(5678, 8756); //=> [0, 4]
+judge(5678, 1234); //=> [0, 0]

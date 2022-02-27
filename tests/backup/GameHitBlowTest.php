@@ -14,4 +14,3 @@ class GameHitBlowTest extends TestCase
     $this->assertSame([0, 0], judge(5678, 1234));
   }
 }
-
