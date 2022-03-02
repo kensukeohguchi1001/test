@@ -13,14 +13,21 @@ define("CARD_RANKS", (function () {
       return $cardRanks;
 })());
 
+const HAND_RANK = [
+    HIGH_CARD => 1,
+    PAIR => 2,
+    STRAIGHT => 3,
+];
+
 function showDown($card11, $card12, $car21, $card22): array
 {
     $cardRank = convertToCardRanks([$card11, $card12, $car21, $card22]);
     $playerCardRanks = array_chunk($cardRank, 2);
     $hands = array_map(fn ($playerCardRank) => checkHand($playerCardRank[0], $playerCardRank[1]), $playerCardRanks);
-    return [];
+    $winner = decideWinner($hands[0], $hands[1]);
+    return [$hands[0]['name'], $hands[1]['name'], $winner];
 }
-
+//=> ['high card', 'pair', 2]
 function convertToCardRanks(array $cards): array
 {
   return array_map(fn ($card) => CARD_RANKS[substr($card, 1, strlen($card) - 1)], $cards);
@@ -42,7 +49,14 @@ function checkHand(int $checkHands1, int $checkHands2)
     } elseif (isPair($checkHands1, $checkHands1)) {
       $name = PAIR;
     }
-    var_dump($name);
+
+
+    return [
+      'name' => $name,
+      'rank' => HAND_RANK[$name],
+      'primary' => $highCard,
+      'secondary' => $lowCard,
+    ];
 }
 
 function isStraight($hands1, $hands2): bool
@@ -60,4 +74,19 @@ function isPair($hands1, $hands2): bool
     return $hands1 === $hands2;
 }
 
-showDown('CK', 'DJ', 'C10', 'H8');  //=> ['high card', 'pair', 2]
+function decideWinner($hands1, $hands2): int
+{
+    foreach (['rank', 'primary', 'secondary'] as $key) {
+        if ($hands1[$key] > $hands2[$key]) {
+            return 1;
+        }
+        if ($hands1[$key] < $hands2[$key]) {
+            return 2;
+        }
+    }
+
+    return 0;
+}
+
+$showDown = showDown('CK', 'DJ', 'C10', 'H8');  //=> ['high card', 'pair', 2]
+var_dump($showDown);
