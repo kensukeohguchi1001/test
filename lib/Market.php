@@ -1,6 +1,56 @@
 <?php
-const TAX = 10;
-const ITEM = [
+
+// 玉ねぎ 100円
+// 人参 150円
+// りんご 200円
+// ぶどう 350円
+// 牛乳 180円
+// 卵 220円
+// 唐揚げ弁当 440円
+// のり弁 380円
+// お茶 80円
+// コーヒー 100円
+// また、以下の条件を満たすと割引されます。
+
+// a. 玉ねぎは3つ買うと50円引き
+// b. 玉ねぎは5つ買うと100円引き
+// c. 弁当と飲み物を一緒に買うと20円引き（ただし適用は一組ずつ）
+// d. お弁当は20〜23時はタイムセールで半額
+
+// 合計金額（税込み）を求めてください。
+
+// ◯仕様
+// 金額を計算するcalc関数を定義してください。
+// calcメソッドは「購入時刻 商品番号 商品番号 商品番号 ...」を引数に取り、合計金額（税込み）を返します。
+// 購入時刻はHH:MM形式（例. 20:00）とし、商品番号は1〜10の整数とします。
+// 同時に買える商品は20個までです。また、購入時刻は9〜23時です。
+
+//タスク分解した上でどれくらい時間がかかるか算出しよう
+
+
+
+
+
+
+
+
+// 1h
+
+// ※アロー関数を使用する インプットしたい10h分
+
+// 商品一覧をcosntで定義しておく 5
+// 半額になる時間帯をconstで定義
+
+// 引数の値を取得する
+// 商品の合計金額を出す 15
+// 税込の金額を加える
+// 条件a~cを作っていく
+  // a. 玉ねぎは3つ買うと50円引き 15
+  // b. 玉ねぎは5つ買うと100円引き
+  // c. 弁当と飲み物を一緒に買うと20円引き（ただし適用は一組ずつ） 10
+// 時間帯を考慮した関数の作成 10
+
+const ITEMS = [
     1 => ['price' => 100, 'type' => ''],
     2 => ['price' => 150, 'type' => ''],
     3 => ['price' => 200, 'type' => ''],
@@ -13,71 +63,23 @@ const ITEM = [
     10 => ['price' => 100, 'type' => 'drink'],
 ];
 
-const ONION_DISCOUNT_HUNDRED = 100;
-const ONION_DISCOUNT_FIFTY = 50;
-const ONION_DISCOUNT_FIVE = 5;
-const ONION_DISCOUNT_THREE = 3;
-const DISCOUNT_SET_ITEM = 20;
-const DISCOUNT_BENTO_START_TIME = '20:00';
+const BENTO_DISCOUNT_START_TIME = '21:00';
 
-function calc(string $time, array $items): int
+function calc(string $time,  array $items): int
 {
     $totalPrice = 0;
+    $totalPrice += itemsTotalPrices($items);
+    return 0;
+}
+
+function itemsTotalPrices($items): int
+{
+  $total = 0;
   foreach ($items as $item) {
-      $totalPrice += ITEM[$item]['price'];
-  }
-    $totalPrice -= discountPriceOnion($items);
-    $totalPrice -= discountSet($items);
-    $totalPrice -= discountBentoFiftyPercent($time);
-    return $totalPrice * (100 + TAX) / 100;
-}
-
-function discountPriceOnion(array $items): int
-{
-    $arrayTest = [];
-    $arrayTest = array_count_values($items);
-    $onionDiscount = 0;
-  if ($arrayTest[1] >= ONION_DISCOUNT_FIVE) {
-    $onionDiscount += ONION_DISCOUNT_HUNDRED;
-  }elseif ($arrayTest[1] >= ONION_DISCOUNT_THREE) {
-    $onionDiscount += ONION_DISCOUNT_FIFTY;
-  }
-    return $onionDiscount;
-}
-
-function discountSet($items): int
-{
-    $bentoCount = 0;
-    $drinkCount = 0;
-  foreach (ITEM as $number => $type) {
-      if ($type['type'] === 'bento') {
-          $bentoCount++;
-      }
-      if ($type['type'] === 'drink') {
-          $drinkCount++;
-      }
+        $total += ITEMS[$item]['price'];
     }
-
-      $discountSet = min($bentoCount, $drinkCount);
-      return DISCOUNT_SET_ITEM * $discountSet;
+    
+    return 0;
 }
 
-function discountBentoFiftyPercent($time): int
-{
-    $bentoPrice = 0;
-    foreach (ITEM as $number => $type) {
-      if ($type['type'] === 'bento') {
-        $bentoPrice += $type['price'];
-      }
-    }
-    if ($time >= DISCOUNT_BENTO_START_TIME) {
-        return $bentoPrice / 2;
-    }else {
-        return 0;
-    }
-}
-
-$calc = calc('21:00', [1, 1, 1, 3, 5, 7, 8, 9, 10]);
-echo $calc;
-
-
+calc('21:00', [1, 1, 1, 3, 5, 7, 8, 9, 10]);  //=> 1298
