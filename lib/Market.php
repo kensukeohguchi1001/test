@@ -27,13 +27,6 @@
 
 //タスク分解した上でどれくらい時間がかかるか算出しよう
 
-
-
-
-
-
-
-
 // 1h
 
 // ※アロー関数を使用する インプットしたい10h分
@@ -64,22 +57,81 @@ const ITEMS = [
 ];
 
 const BENTO_DISCOUNT_START_TIME = '21:00';
+const TAX = 10;
 
 function calc(string $time,  array $items): int
 {
     $totalPrice = 0;
     $totalPrice += itemsTotalPrices($items);
-    return 0;
+    $totalPrice -= discountOnion($items);
+    $totalPrice -= setPrice($items);
+    $totalPrice -= bentoDiscountFiftyPercent($time, $items);
+    return (int) $totalPrice * (100 + TAX) / 100;
 }
 
 function itemsTotalPrices($items): int
 {
-  $total = 0;
+  $taxIncludePrices = 0;
   foreach ($items as $item) {
-        $total += ITEMS[$item]['price'];
+    $taxIncludePrices += ITEMS[$item]['price'];
     }
-    
+
+    return $taxIncludePrices;
+}
+
+function discountOnion(array $items): int
+{
+    $discountOnionPrice = 0;
+    $onionCount = 0;
+  foreach ($items as $item) {
+      if ($item === 1) {
+          $onionCount++;
+      }
+  }
+
+  if ($onionCount >= 5) {
+    $discountOnionPrice += 100;
+    return $discountOnionPrice;
+  } elseif ($onionCount >= 3 ) {
+    $discountOnionPrice += 50;
+    return $discountOnionPrice;
+  } else {
     return 0;
+  }
+}
+
+function setPrice(array $items): int
+{
+    $bentoCount = 0;
+    $drinkCount = 0;
+    $setDiscount = [];
+  foreach (ITEMS as $key => $value) {
+      if ($value['type'] === 'drink') {
+          $drinkCount++;
+      } elseif ($value['type'] === 'bento') {
+          $bentoCount++;
+      }
+  }
+  $setDiscount = [$bentoCount, $drinkCount];
+    return  min($setDiscount) * 20;
+}
+
+function bentoDiscountFiftyPercent(string $time, array $items): int
+{
+    $bentoTotal = 0;
+  foreach ($items as $item) {
+      if (ITEMS[$item]['type'] === 'bento') {
+          $bentoTotal += ITEMS[$item]['price'];
+      }
+  }
+
+
+  if ($time >= BENTO_DISCOUNT_START_TIME) {
+      $bentoDiscount =  $bentoTotal / 2;
+    } else {
+      return 0;
+    }
+    return $bentoDiscount;
 }
 
 calc('21:00', [1, 1, 1, 3, 5, 7, 8, 9, 10]);  //=> 1298
