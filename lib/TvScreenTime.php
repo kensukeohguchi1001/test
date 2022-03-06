@@ -42,6 +42,7 @@ function TvScreenTime($argv): array
 
   $chanelSeparateTime = chanelSeparateTime($arrayChanelTime);
   $chanelTotalScreen = chanelTotalScreen($chanelSeparateTime);
+  $chanelSeparateTotalTime = chanelSeparateTotalTime($chanelSeparateTime);
   return [];
 }
 
@@ -75,13 +76,24 @@ function chanelTotalScreen(array $chanelSeparateTime): float
     // 1 => [30,15] 2 => [15] 5 => [30]
     // foreachで回して、30,15,15,だけの値を取り出す、それを合計するじゃだめなの？
     $chanelTotalTime = [];
+    $test = [];
     foreach ($chanelSeparateTime as $chanel => $times) {
-        // var_dump($chanel);
-        // var_dump($times);
-
         $chanelTotalTime = array_merge($chanelTotalTime,$times);
     }
       return round(array_sum($chanelTotalTime) / 60, 1);
 }
 
+function chanelSeparateTotalTime(array $chanelSeparateTime)
+{
+  // どんなデータ構造
+  // 1 => [30,15] 2 => [15] 5 => [30]
+  // 1 => 45 2 => 15 5 => 30
+    $chanelTotalScreen = chanelTotalScreen($chanelSeparateTime);
+    echo $chanelTotalScreen .PHP_EOL;
+    foreach ($chanelSeparateTime as $chanel => $times) {
+        echo $chanel. ' ' .array_sum($times). ' ' . count($times). PHP_EOL ;
+    }
+}
+
 TvScreenTime($argv);
+chanelSeparateTotalTime($chanelSeparateTime);
