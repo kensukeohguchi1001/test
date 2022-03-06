@@ -17,6 +17,27 @@ define('CARD_RANK', (function()
     return $cardRanks;
 })());
 
+function showDown($card11, $card12, $card21, $card22): array
+{
+    $cardRanks = convertToCardRanks([$card11, $card12, $card21, $card22]);
+    // カードの役を判定する
+    $playerCardRanks = array_chunk($cardRanks, 2);
+    $hands = array_map(fn ($playerCardRank) =>
+        checkHand($playerCardRank[0], $playerCardRank[1])
+    , $playerCardRanks);
+    // 勝者を判定する
 
+    return [];
+}
 
-var_dump(CARD_RANK);
+function convertToCardRanks(array $playerCardArray): array
+{
+  return array_map(fn ($card) => CARD_RANK[substr($card, 1, strlen($card) - 1)], $playerCardArray);
+}
+
+function checkHand()
+{
+
+}
+
+showDown('CK', 'DJ', 'C10', 'H10');
