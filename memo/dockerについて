@@ -103,3 +103,60 @@ docker container run -p 8080.80 myapache:latest
 
 
 docker container exec コマンドから
+
+■コンテナを停止、削除
+
+停止
+docker container stop apache
+
+docker container stop ls -q 起動中のコンテナIDを出力
+
+削除
+docker container rm apache
+
+docker container ls -q $(docker container ls -q -a)
+起動中のコンテナは削除できない
+
+起動中のコンテナを強制削除する
+docker container rm -f apache
+
+■imageを削除
+docker image rm  practice/apache
+
+■dockerの掃除
+imageとかコンテナが溜まると、ハードディスクの容量を圧迫してしまう
+
+不使用なdocker イメージ、コンテナを削除する
+
+docker system prune
+
+-a 全て削除する
+build キャッシュ、中間イメージも消す
+docker system prune -a
+
+docker system prune --volumes
+
+-f 強制的に(force)
+docker system prune -f
+
+
+■Dockerfileってなに？
+
+イメージの構成を定義するファイル
+実行したいコマンドを記載しておく
+
+Docker独自の言語を使って命令
+
+FROM
+RUN
+CMD
+など
+
+■Dockerfileの基本の書き方 FROM
+
+Dockerイメージのベースとなるイメージを指定
+FROM ubuntu:21.10
+
+■Dockerfileの基本の書き方 RUN
+Dockerイメージをビルドするときに、コンテナないで実行するコマンドを定義する
+
