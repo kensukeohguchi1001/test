@@ -161,6 +161,4 @@ FROM ubuntu:21.10
 Dockerイメージをビルドするときに、コンテナないで実行するコマンドを定義する
 
 ■Docker-Compose.ymlについて
-
 Docker Composeの設定を行う、YML形式で書かれたテキストファイル
-
